@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1277c82-1f6a-4833-b372-e31937d75f3e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -190,7 +192,8 @@
       <updated>1754312048364</updated>
       <workItem from="1754312050006" duration="2394000" />
       <workItem from="1754477460052" duration="688000" />
-      <workItem from="1754478148610" duration="1343000" />
+      <workItem from="1754478148610" duration="3044000" />
+      <workItem from="1754484202802" duration="601000" />
     </task>
     <servers />
   </component>
