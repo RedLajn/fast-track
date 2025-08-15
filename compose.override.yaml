@@ -16,6 +16,12 @@ services:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 ###< symfony/mailer ###
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"  # Web interface
+      - "1025:1025"  # SMTP server
+    restart: unless-stopped
 
 ###> blackfireio/blackfire-symfony-meta ###
   blackfire:
