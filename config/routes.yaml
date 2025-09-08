@@ -4,5 +4,4 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-"https://spa.{all}/": { type: upstream, upstream: "spa:http" }
-"http://spa.{all}/": { type: redirect, to: "https://spa.{all}/" }
+
