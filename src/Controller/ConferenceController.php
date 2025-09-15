@@ -28,7 +28,7 @@ final class ConferenceController extends AbstractController
     {
 
     }
-    ///#[Route('/conference', name: 'app_conference')]
+
     #[Route('/', name: 'homepage')]
     public function index(ConferenceRepository $conferenceRepository): Response
     {
@@ -39,11 +39,27 @@ final class ConferenceController extends AbstractController
     #[Route('/conference_header', name: 'conference_header')]
     public function conferenceHeader(ConferenceRepository $conferenceRepository): Response
     {
+
+        $greeting = $this->getDynamicGreeting();
+
         return $this->render('conference/header.html.twig', [
             'conferences' => $conferenceRepository->findAll(),
+            'dynamic_greeting' => $greeting,
         ])->setSharedMaxAge(3600);
     }
 
+    private function getDynamicGreeting(): string
+    {
+
+        $greetings = [
+            'Welcome to our conference!',
+            'Join the conversation!',
+            'Share your thoughts with us!',
+            'Connect with fellow attendees!',
+        ];
+
+        return $greetings[array_rand($greetings)];
+    }
 
     #[Route('/conference/{slug}', name: 'conference')]
     public function show(

@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1277c82-1f6a-4833-b372-e31937d75f3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Admin/AdminAdmin.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Admin/CommentAdmin.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Admin/ConferenceAdmin.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Admin/AdminWorkflowController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventListener/AdminWorkflowEventListener.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OpenApi/OpenApiSpec.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OpenApi/Schemas/GreetingResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/AdminWorkflowService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/framework.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/workflow.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/workflow.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Admin/AdminAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/AdminAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ConferenceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ConferenceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/conference/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/conference/header.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,6 +213,8 @@
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-menu" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-acl" />
       <path value="$PROJECT_DIR$/vendor/sonata-project/doctrine-orm-admin-bundle" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/api-doc-bundle" />
+      <path value="$PROJECT_DIR$/vendor/zircote/swagger-php" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -266,7 +275,8 @@
       <workItem from="1755252653683" duration="10755000" />
       <workItem from="1755683325308" duration="2575000" />
       <workItem from="1757361418616" duration="388000" />
-      <workItem from="1757361811198" duration="2850000" />
+      <workItem from="1757361811198" duration="3266000" />
+      <workItem from="1757940610926" duration="8124000" />
     </task>
     <servers />
   </component>

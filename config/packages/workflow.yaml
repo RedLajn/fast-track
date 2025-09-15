@@ -43,3 +43,49 @@ framework:
                 optimize:
                     from: ready
                     to: published
+        admin_management:
+            type: 'state_machine'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\Admin
+            initial_marking: pending
+            places:
+                - pending      # do zatwierdzenia
+                - active       # działający admin
+                - suspended    # zawieszony admina
+                - rejected     # odrzucenie aplikacji na admina
+            transitions:
+                activate:
+                    from: pending
+                    to: active
+                    metadata:
+                        title: 'Activate Admin'
+                        description: 'Approve and activate the admin account'
+                suspend:
+                    from: active
+                    to: suspended
+                    metadata:
+                        title: 'Suspend Admin'
+                        description: 'Temporarily suspend the admin account'
+                reactivate:
+                    from: suspended
+                    to: active
+                    metadata:
+                        title: 'Reactivate Admin'
+                        description: 'Reactivate a suspended admin account'
+                reject:
+                    from: [pending, suspended]
+                    to: rejected
+                    metadata:
+                        title: 'Reject Admin'
+                        description: 'Permanently reject the admin application'
+                restore:
+                    from: rejected
+                    to: pending
+                    metadata:
+                        title: 'Restore Admin'
+                        description: 'Restore a rejected admin to pending status'

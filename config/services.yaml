@@ -31,10 +31,10 @@ services:
     App\Admin\AdminAdmin:
         arguments:
             - '@security.user_password_hasher'
+            - '@App\Service\AdminWorkflowService'
         tags:
             - { name: sonata.admin, model_class: App\Entity\Admin, manager_type: orm, label: Admin }
         public: true
-
     App\Admin\CommentAdmin:
         arguments: [App\Admin\CommentAdmin, App\Entity\Comment, null]
         tags:

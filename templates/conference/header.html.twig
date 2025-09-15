@@ -1,3 +1,9 @@
+{% if dynamic_greeting is defined %}
+    <div class="conference-greeting text-center py-2 mb-3">
+        <span class="badge bg-primary fs-6">{{ dynamic_greeting }}</span>
+    </div>
+{% endif %}
+
 {% for conference in conferences %}
     <a class="nav-conference" href="{{ path('conference', { slug: conference.slug }) }}">
         {{ conference }}

@@ -31,9 +31,29 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
+    /**
+     * Workflow state field
+     */
+    #[ORM\Column(length: 50, options: ["default" => "pending"])]
+    private string $state = 'pending';
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $activatedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $suspendedAt = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $notes = null;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
+        $this->state = 'pending';
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -49,45 +69,27 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(string $username): static
     {
         $this->username = $username;
-
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->username;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
-
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -96,13 +98,86 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
-    #[\Deprecated]
     public function eraseCredentials(): void
     {
-        // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+    // Workflow-related methods
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): static
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getActivatedAt(): ?\DateTimeImmutable
+    {
+        return $this->activatedAt;
+    }
+
+    public function setActivatedAt(?\DateTimeImmutable $activatedAt): static
+    {
+        $this->activatedAt = $activatedAt;
+        return $this;
+    }
+
+    public function getSuspendedAt(): ?\DateTimeImmutable
+    {
+        return $this->suspendedAt;
+    }
+
+    public function setSuspendedAt(?\DateTimeImmutable $suspendedAt): static
+    {
+        $this->suspendedAt = $suspendedAt;
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
+        return $this;
+    }
+
+    public function isPending(): bool
+    {
+        return $this->state === 'pending';
+    }
+
+    public function isActive(): bool
+    {
+        return $this->state === 'active';
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->state === 'suspended';
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->state === 'rejected';
     }
 }
