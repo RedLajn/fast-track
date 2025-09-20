@@ -4,9 +4,8 @@ namespace App\Controller;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
-
 
 class ApiController extends AbstractController
 {
@@ -20,30 +19,30 @@ class ApiController extends AbstractController
         response: 200,
         description: 'Successful response with greeting message',
         content: new OA\JsonContent(
-            type: 'object',
             properties: [
                 new OA\Property(property: 'message', type: 'string', example: 'Hello, world!'),
                 new OA\Property(property: 'status', type: 'string', example: 'success'),
                 new OA\Property(property: 'timestamp', type: 'string', format: 'date-time', example: '2024-01-15T10:30:00+00:00')
-            ]
+            ],
+            type: 'object'
         )
     )]
     #[OA\Parameter(
         name: 'name',
-        in: 'query',
         description: 'Optional name for personalized greeting',
+        in: 'query',
         schema: new OA\Schema(type: 'string')
     )]
     #[OA\Parameter(
         name: 'format',
-        in: 'query',
         description: 'Response format',
+        in: 'query',
         schema: new OA\Schema(type: 'string', default: 'json')
     )]
     #[OA\Tag(name: 'greetings')]
-    public function hello(): JsonResponse
+    public function hello(Request $request): JsonResponse
     {
-        $name = $this->getRequest()->query->get('name');
+        $name = $request->query->get('name');
         $message = $name ? sprintf('Hello, %s!', $name) : 'Hello, world!';
 
         return $this->json([
@@ -65,26 +64,26 @@ class ApiController extends AbstractController
         content: new OA\JsonContent(
             type: 'array',
             items: new OA\Items(
-                type: 'object',
                 properties: [
                     new OA\Property(property: 'message', type: 'string', example: 'Hello, world!'),
                     new OA\Property(property: 'status', type: 'string', example: 'success'),
                     new OA\Property(property: 'timestamp', type: 'string', format: 'date-time', example: '2024-01-15T10:30:00+00:00')
-                ]
+                ],
+                type: 'object'
             )
         )
     )]
     #[OA\Parameter(
         name: 'count',
-        in: 'query',
         description: 'Number of greetings to return',
-        schema: new OA\Schema(type: 'integer', default: 3, minimum: 1, maximum: 10)
+        in: 'query',
+        schema: new OA\Schema(type: 'integer', default: 3, maximum: 10, minimum: 1)
     )]
     #[OA\Tag(name: 'greetings')]
-    public function greetings(): JsonResponse
+    public function greetings(Request $request): JsonResponse
     {
-        $count = $this->getRequest()->query->getInt('count', 3);
-        $count = max(1, min(10, $count)); // Clamp between 1-10
+        $count = $request->query->getInt('count', 3);
+        $count = max(1, min(10, $count));
 
         $greetings = [];
         for ($i = 1; $i <= $count; $i++) {
@@ -96,10 +95,5 @@ class ApiController extends AbstractController
         }
 
         return $this->json($greetings);
-    }
-
-    private function getRequest()
-    {
-        return $this->container->get('request_stack')->getCurrentRequest();
     }
 }

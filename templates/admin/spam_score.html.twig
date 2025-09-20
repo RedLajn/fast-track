@@ -1,0 +1,35 @@
+{% if value is not null %}
+    {% set score_percentage = (value * 100)|round %}
+    {% set score_class = '' %}
+
+    {% if value >= 0.8 %}
+        {% set score_class = 'text-danger' %}
+    {% elseif value >= 0.4 %}
+        {% set score_class = 'text-warning' %}
+    {% else %}
+        {% set score_class = 'text-success' %}
+    {% endif %}
+
+    <span class="{{ score_class }}" title="Spam Score: {{ score_percentage }}%">
+        {{ score_percentage }}%
+        {% if value >= 0.8 %}
+            <i class="fa fa-exclamation-circle"></i>
+        {% elseif value >= 0.4 %}
+            <i class="fa fa-exclamation-triangle"></i>
+        {% else %}
+            <i class="fa fa-check-circle"></i>
+        {% endif %}
+    </span>
+
+    <div class="progress" style="height: 5px; margin-top: 2px;">
+        <div class="progress-bar {{ score_class == 'text-danger' ? 'bg-danger' : (score_class == 'text-warning' ? 'bg-warning' : 'bg-success') }}"
+             role="progressbar"
+             style="width: {{ score_percentage }}%"
+             aria-valuenow="{{ score_percentage }}"
+             aria-valuemin="0"
+             aria-valuemax="100">
+        </div>
+    </div>
+{% else %}
+    <span class="text-muted">N/A</span>
+{% endif %}

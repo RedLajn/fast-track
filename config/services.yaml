@@ -44,3 +44,10 @@ services:
         arguments: [App\Admin\ConferenceAdmin, App\Entity\Conference, null]
         tags:
             - { name: sonata.admin, manager_type: orm, label: "Conferences" }
+
+    App\Service\AdminWorkflowService:
+        arguments:
+            - '@workflow.registry'
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+

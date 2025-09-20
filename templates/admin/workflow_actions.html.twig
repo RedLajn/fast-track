@@ -1,0 +1,47 @@
+{% set workflow_service = admin.getWorkflowService() %}
+{% set available_transitions = workflow_service.getAvailableTransitions(object) %}
+
+<div class="btn-group" role="group">
+    {% for transition in available_transitions %}
+        {% set transition_name = transition.name %}
+        {% set transition_label = transition.definition.metadata.title ?? transition_name|title %}
+
+        {% if transition_name == 'activate' %}
+            <form method="POST" action="{{ path('admin_admin_activate', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to activate this admin?')">
+                    <i class="fa fa-check"></i> Activate
+                </button>
+            </form>
+        {% elseif transition_name == 'suspend' %}
+            <form method="POST" action="{{ path('admin_admin_suspend', {'id': object.id}) }}" style="display: inline;">
+                <input type="text" name="reason" placeholder="Suspension reason" class="form-control form-control-sm d-inline" style="width: auto; margin-right: 5px;">
+                <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to suspend this admin?')">
+                    <i class="fa fa-pause"></i> Suspend
+                </button>
+            </form>
+        {% elseif transition_name == 'reactivate' %}
+            <form method="POST" action="{{ path('admin_admin_reactivate', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to reactivate this admin?')">
+                    <i class="fa fa-play"></i> Reactivate
+                </button>
+            </form>
+        {% elseif transition_name == 'reject' %}
+            <form method="POST" action="{{ path('admin_admin_reject', {'id': object.id}) }}" style="display: inline;">
+                <input type="text" name="reason" placeholder="Rejection reason" class="form-control form-control-sm d-inline" style="width: auto; margin-right: 5px;">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to reject this admin?')">
+                    <i class="fa fa-times"></i> Reject
+                </button>
+            </form>
+        {% elseif transition_name == 'restore' %}
+            <form method="POST" action="{{ path('admin_admin_restore', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Are you sure you want to restore this admin?')">
+                    <i class="fa fa-undo"></i> Restore
+                </button>
+            </form>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% if available_transitions|length == 0 %}
+    <span class="text-muted">No actions available</span>
+{% endif %}

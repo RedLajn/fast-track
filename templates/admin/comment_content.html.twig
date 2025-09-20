@@ -1,0 +1,18 @@
+{% set max_length = 100 %}
+{% set content = value|striptags %}
+
+<div class="comment-content">
+    {% if content|length > max_length %}
+        <span title="{{ content }}">
+            {{ content|slice(0, max_length) }}...
+        </span>
+    {% else %}
+        {{ content }}
+    {% endif %}
+</div>
+
+{% if object.email %}
+    <small class="text-muted">
+        <i class="fa fa-envelope"></i> {{ object.email }}
+    </small>
+{% endif %}

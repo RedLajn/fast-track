@@ -1,0 +1,34 @@
+{% set state_classes = {
+    'submitted': 'badge badge-info',
+    'ham': 'badge badge-success',
+    'potential_spam': 'badge badge-warning',
+    'spam': 'badge badge-danger',
+    'rejected': 'badge badge-dark',
+    'ready': 'badge badge-primary',
+    'published': 'badge badge-success'
+} %}
+
+{% set state_labels = {
+    'submitted': 'Submitted',
+    'ham': 'Ham',
+    'potential_spam': 'Potential Spam',
+    'spam': 'Spam',
+    'rejected': 'Rejected',
+    'ready': 'Ready',
+    'published': 'Published'
+} %}
+
+{% set state_icons = {
+    'submitted': 'fa fa-clock-o',
+    'ham': 'fa fa-check',
+    'potential_spam': 'fa fa-exclamation-triangle',
+    'spam': 'fa fa-ban',
+    'rejected': 'fa fa-times',
+    'ready': 'fa fa-arrow-right',
+    'published': 'fa fa-eye'
+} %}
+
+<span class="{{ state_classes[value] ?? 'badge badge-secondary' }}">
+    <i class="{{ state_icons[value] ?? 'fa fa-question' }}"></i>
+    {{ state_labels[value] ?? value|title }}
+</span>

@@ -73,4 +73,18 @@ class AdminWorkflowController extends AbstractController
 
         return $this->redirectToRoute('admin_app_admin_list');
     }
+
+    #[Route('/admin/{id}/restore', name: 'admin_admin_restore', methods: ['POST'])]
+    public function restore(Admin $admin, Request $request): Response
+    {
+        $notes = $request->request->get('notes');
+
+        if ($this->workflowService->restoreAdmin($admin, $notes)) {
+            $this->addFlash('success', 'Admin has been restored.');
+        } else {
+            $this->addFlash('error', 'Cannot restore this admin.');
+        }
+
+        return $this->redirectToRoute('admin_app_admin_list');
+    }
 }

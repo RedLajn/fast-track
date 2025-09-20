@@ -1,0 +1,76 @@
+
+{% set moderation_service = admin.getModerationService() %}
+{% set available_transitions = moderation_service.getAvailableTransitions(object) %}
+
+<div class="btn-group" role="group">
+    {% for transition in available_transitions %}
+        {% set transition_name = transition.name %}
+
+        {% if transition_name == 'accept' %}
+            <form method="POST" action="{{ path('admin_comment_accept', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Accept this comment as ham?')">
+                    <i class="fa fa-check"></i> Accept
+                </button>
+            </form>
+
+        {% elseif transition_name == 'might_be_spam' %}
+            <button class="btn btn-warning btn-sm" onclick="markAsPotentialSpam({{ object.id }})">
+                <i class="fa fa-exclamation-triangle"></i> Flag Spam
+            </button>
+
+        {% elseif transition_name == 'reject_spam' %}
+            <form method="POST" action="{{ path('admin_comment_reject_spam', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Reject this comment as spam?')">
+                    <i class="fa fa-ban"></i> Spam
+                </button>
+            </form>
+
+        {% elseif transition_name == 'publish' %}
+            <form method="POST" action="{{ path('admin_comment_publish', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Publish this comment?')">
+                    <i class="fa fa-eye"></i> Publish
+                </button>
+            </form>
+
+        {% elseif transition_name == 'publish_ham' %}
+            <form method="POST" action="{{ path('admin_comment_publish_ham', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Publish this ham comment?')">
+                    <i class="fa fa-eye"></i> Publish
+                </button>
+            </form>
+
+        {% elseif transition_name == 'reject' %}
+            <form method="POST" action="{{ path('admin_comment_reject', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('Reject this comment?')">
+                    <i class="fa fa-times"></i> Reject
+                </button>
+            </form>
+
+        {% elseif transition_name == 'reject_ham' %}
+            <form method="POST" action="{{ path('admin_comment_reject_ham', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-secondary btn-sm" onclick="return confirm('Reject this ham comment?')">
+                    <i class="fa fa-times"></i> Reject
+                </button>
+            </form>
+
+        {% elseif transition_name == 'optimize' %}
+            <form method="POST" action="{{ path('admin_comment_optimize', {'id': object.id}) }}" style="display: inline;">
+                <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Optimize to published?')">
+                    <i class="fa fa-rocket"></i> Optimize
+                </button>
+            </form>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% if available_transitions|length == 0 %}
+    <span class="text-muted">No actions</span>
+{% endif %}
+
+<script>
+    function markAsPotentialSpam(commentId) {
+        if (confirm('Potential spam?')) {
+            window.location.href = '{{ path('admin_comment_mark_spam', {'id': '__ID__'}) }}'.replace('__ID__', commentId);
+        }
+    }
+</script>

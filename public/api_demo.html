@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+        }
+
+        .api-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f7fafc;
+        }
+
+        .api-section h2 {
+            color: #2d3748;
+            margin-top: 0;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #4299e1;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #3182ce;
+        }
+
+        button:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .response {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .loading {
+            color: #4299e1;
+            font-style: italic;
+        }
+
+        .error {
+            color: #e53e3e;
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+        }
+
+        .success {
+            border-left: 4px solid #48bb78;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🚀 API Demo - Testing Your Symfony API</h1>
+
+    <div class="api-section">
+        <h2>📝 Single Greeting API</h2>
+        <p><strong>Endpoint:</strong> <code>/api/hello</code></p>
+
+        <div class="input-group">
+            <label for="nameInput">Name:</label>
+            <input type="text" id="nameInput" placeholder="Enter your name (optional)" />
+        </div>
+
+        <button onclick="callHelloAPI()">Get Greeting</button>
+        <div id="helloResponse" class="response" style="display: none;"></div>
+    </div>
+
+    <div class="api-section">
+        <h2>📋 Multiple Greetings API</h2>
+        <p><strong>Endpoint:</strong> <code>/api/greetings</code></p>
+
+        <div class="input-group">
+            <label for="countInput">Count:</label>
+            <input type="number" id="countInput" value="3" min="1" max="10" />
+        </div>
+
+        <button onclick="callGreetingsAPI()">Get Multiple Greetings</button>
+        <div id="greetingsResponse" class="response" style="display: none;"></div>
+    </div>
+
+    <!-- Test All Button -->
+    <div style="text-align: center; margin: 30px 0;">
+        <button onclick="testAllAPIs()" style="background: #38a169; font-size: 16px; padding: 12px 24px;">
+            🧪 Test All APIs
+        </button>
+    </div>
+</div>
+
+<script>
+    const BASE_URL = '';
+    async function callHelloAPI() {
+        const name = document.getElementById('nameInput').value;
+        const responseDiv = document.getElementById('helloResponse');
+        const button = event.target;
+
+        // Show loading state
+        responseDiv.style.display = 'block';
+        responseDiv.className = 'response loading';
+        responseDiv.textContent = 'Loading...';
+        button.disabled = true;
+
+        try {
+            const url = name
+                ? `${BASE_URL}/api/hello?name=${encodeURIComponent(name)}`
+                : `${BASE_URL}/api/hello`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            responseDiv.className = 'response success';
+            responseDiv.textContent = JSON.stringify(data, null, 2);
+
+        } catch (error) {
+            responseDiv.className = 'response error';
+            responseDiv.textContent = `Error: ${error.message}`;
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function callGreetingsAPI() {
+        const count = document.getElementById('countInput').value || 3;
+        const responseDiv = document.getElementById('greetingsResponse');
+        const button = event.target;
+
+
+        responseDiv.style.display = 'block';
+        responseDiv.className = 'response loading';
+        responseDiv.textContent = 'Loading...';
+        button.disabled = true;
+
+        try {
+            const response = await fetch(`${BASE_URL}/api/greetings?count=${count}`);
+            const data = await response.json();
+
+            responseDiv.className = 'response success';
+            responseDiv.textContent = JSON.stringify(data, null, 2);
+
+        } catch (error) {
+            responseDiv.className = 'response error';
+            responseDiv.textContent = `Error: ${error.message}`;
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    async function testAllAPIs() {
+
+        document.getElementById('nameInput').value = 'Developer';
+        document.getElementById('countInput').value = 5;
+
+
+        await callHelloAPI();
+
+        setTimeout(async () => {
+            await callGreetingsAPI();
+        }, 500);
+    }
+
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('nameInput').value = 'World';
+            callHelloAPI();
+        }, 1000);
+    });
+</script>
+</body>
+</html>

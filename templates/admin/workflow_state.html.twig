@@ -1,0 +1,29 @@
+{% set state_classes = {
+    'pending': 'badge badge-warning',
+    'active': 'badge badge-success',
+    'suspended': 'badge badge-danger',
+    'rejected': 'badge badge-dark',
+    'submitted': 'badge badge-info',
+    'ham': 'badge badge-success',
+    'potential_spam': 'badge badge-warning',
+    'spam': 'badge badge-danger',
+    'ready': 'badge badge-primary',
+    'published': 'badge badge-success'
+} %}
+
+{% set state_labels = {
+    'pending': 'Pending',
+    'active': 'Active',
+    'suspended': 'Suspended',
+    'rejected': 'Rejected',
+    'submitted': 'Submitted',
+    'ham': 'Ham',
+    'potential_spam': 'Potential Spam',
+    'spam': 'Spam',
+    'ready': 'Ready',
+    'published': 'Published'
+} %}
+
+<span class="{{ state_classes[value] ?? 'badge badge-secondary' }}">
+    {{ state_labels[value] ?? value|title }}
+</span>
